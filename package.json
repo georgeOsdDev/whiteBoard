@@ -1,0 +1,36 @@
+{
+  "name": "whiteBoard",
+  "version": "0.0.1",
+  "description": "Realtime online whiteboard app.",
+  "homepage": "https://github.com/georgeOsdDev/whiteBoard",
+  "keywords": [
+    "whiteboard",
+    "websocket",
+    "coffee-script"
+    "Angular.js"
+    "realtime"
+  ],
+  "author": {
+    "name": "Oshida Takeharu",
+    "email": "georgeosddev@gmail.com",
+    "url": "http://george-osd-site.cloudfoundry.com/"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://creativecommons.org/licenses/MIT/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/georgeOsdDev/whiteBoard.git"
+  },
+  "dependencies": {
+    "coffee-script": "1.3.x",
+    // "mongoose": ">= 2.3.11",
+    "express": "3.0.0rc3",
+    "socket.io":"0.9.x",
+    "ejs": "*",
+    "stylus": "*"
+  }
+}

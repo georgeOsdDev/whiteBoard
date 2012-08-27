@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include includes/head-meta %>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/vendor/iealert/style.css'/>
+    <link rel='stylesheet' href='/bootstrap2.1.0/css/bootstrap.min.css'>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+    <script src='/javascripts/vendor/iealert.min.js'></script>
+    <script src='/javascripts/client.js';></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1><%= title %></h1>
+      <div class="row">
+        <div class="span16">
+          <table id="board" class="table">
+              <thead>
+                <tr>
+                  <th class="span2">Name</th>
+                  <th class="span8">Schedule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input id='name0' class='span2' type='text' name='name' placeholder='Your Name Here' onFocus='forcus=this.id'></td>
+                  <td><input id='text0' class='span8' type='text' name='text' placeholder='Type something…' onFocus='forcus=this.id'></td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-small btn-info" type="button" onclick="addLine(true)"><i class="icon-plus"></i></button>
+        </div>
+      </div>
+    </div>
+    <script src='/bootstrap2.1.0/js/bootstrap.min.js'></script>
+    <script type="text/javascript">
+      var focuselement = document.activeElement;
+      $(function(){
+        $("body").iealert();
+        document.activeElement.onchange = function(){
+          console.log(document.activeElement.id);
+          data = {id:document.activeElement.id,val:document.activeElement.value,name:document.activeElement.name}
+          socket.emit('update',data);
+        }
+      });
+
+      var line =1;
+      function addLine(emitFlg){
+        $("#board").append("<tr><td><input id='name"+ line + "' class='span2' type='text' name='name' placeholder='Your Name Here' onFocus='forcus=this.id'></td><td><input id='text" + line + "'class='span8' type='text' name='text' placeholder='Type something…'' onFocus='forcus=this.id'></td></tr>");
+        line++;
+        if(emitFlg) socket.emit('addLine',{no:line});
+      }
+
+      // Socket.io setting
+      var HOST = 'http://' + (location.host || 'localhost');
+      var socket = io.connect(HOST);
+
+      socket.on('disconnect', function(){ 
+        console.log('socket.io disconnected');
+      });
+
+      socket.on('init',function(data){
+        var lineNo = data.lineNo;
+        if (lineNo != line){
+          while(lineNo - line > 0){
+            addLine(false);
+          }
+        }
+        console.log(data.names);
+        $.each(data.names, function(key,val){
+          $('#' + key).val(val);
+        })
+        $.each(data.texts, function(key,val){
+          $('#' + key).val(val);
+        })
+      });
+
+      socket.on('update',function(data){
+        $('#' + data.id).val(data.val);
+      });
+
+      socket.on('addLine',function(data){
+        var lineNo = data.lineNo;
+        if (lineNo != line){
+          while(lineNo - line > 0){
+            addLine(false);
+          }
+        }          
+      });
+
+    </script>
+  </body>
+</html>
