@@ -9,7 +9,6 @@
     <script src='/socket.io/socket.io.js'></script>
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
     <script src='/javascripts/vendor/iealert.min.js'></script>
-    <script src='/javascripts/client.js';></script>
   </head>
   <body>
     <div class="container">
@@ -36,7 +35,6 @@
     </div>
     <script src='/bootstrap2.1.0/js/bootstrap.min.js'></script>
     <script type="text/javascript">
-      var focuselement = document.activeElement;
       $(function(){
         $("body").iealert();
         document.activeElement.onchange = function(){
@@ -48,7 +46,7 @@
 
       var line =1;
       function addLine(emitFlg){
-        $("#board").append("<tr><td><input id='name"+ line + "' class='span2' type='text' name='name' placeholder='Your Name Here' onFocus='forcus=this.id'></td><td><input id='text" + line + "'class='span8' type='text' name='text' placeholder='Type something…'' onFocus='forcus=this.id'></td></tr>");
+        $("#board").append("<tr><td><input id='name"+ line + "' class='span2' type='text' name='name' placeholder='Your Name Here'></td><td><input id='text" + line + "'class='span8' type='text' name='text' placeholder='Type something…'></td></tr>");
         line++;
         if(emitFlg) socket.emit('addLine',{no:line});
       }
